@@ -11,6 +11,18 @@ pipeline{
                 echo "Performing unit tests using 'JUnit'..."
                 echo "Performing integration tests using 'TestNG'..."
             }
+            post{
+                success{
+                    mail to: "sm.sanuri.d@gmail.com"
+                    subject: "Test Status Email: SUCCESS"
+                    body: "Testing was successful!"
+                }
+                failure{
+                    mail to: "sm.sanuri.d@gmail.com"
+                    subject: "Test Status Email: FAILURE"
+                    body: "Testing failed!"
+                }
+            }
         }
         stage('Code Analysis'){
             steps{
@@ -20,6 +32,18 @@ pipeline{
         stage('Security Scan'){
             steps{
                 echo "Performing a security scan on the code using 'Snyk'..."
+            }
+            post{
+                success{
+                    mail to: "sm.sanuri.d@gmail.com"
+                    subject: "Security Scan Status Email: SUCCESS"
+                    body: "Security Scan was successful!"
+                }
+                failure{
+                    mail to: "sm.sanuri.d@gmail.com"
+                    subject: "Security Scan Status Email: FAILURE"
+                    body: "Security Scan failed!"
+                }
             }
         }
         stage('Deploy to Staging'){
